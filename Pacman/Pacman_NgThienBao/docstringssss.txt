@@ -1,0 +1,1387 @@
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\animation.py____________________!!
+****** Class: Animator ******
+Represents an animation object that manages a sequence of frames.
+
+Attributes:
+    frames (list): A list of frames for the animation.
+    current_frame (int): The index of the current frame.
+    speed (int): The speed of the animation in frames per second.
+    loop (bool): Indicates whether the animation should loop or not.
+    dt (float): The elapsed time since the last frame change.
+    finished (bool): Indicates whether the animation has finished or not.
+
+**Function: __init__ **
+Initializes an Animator object.
+
+Args:
+    frames (list): A list of frames for the animation.
+    speed (int): The speed of the animation in frames per second.
+    loop (bool): Indicates whether the animation should loop or not.
+
+**Function: reset **
+Resets the animation to its initial state.
+
+**Function: update **
+Updates the animation based on the elapsed time.
+
+Args:
+    dt (float): The elapsed time since the last update.
+
+Returns:
+    The current frame of the animation.
+
+**Function: nextFrame **
+Advances to the next frame of the animation.
+
+Args:
+    dt (float): The elapsed time since the last frame change.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\constants.py____________________!!
+The file contains the constants used in the game
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\docstring.py____________________!!
+**Function: extract_docstrings **
+Extracts docstrings from all Python files in a folder and writes them to an output file.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\entity.py____________________!!
+****** Class: Entity ******
+Represents an entity in the game, useful for Ghosts to chase Pacman.
+Attributes:
+    name (str): The name of the entity.
+    directions (dict): A dictionary mapping direction constants to Vector2 objects representing the direction vectors.
+    direction (int): The current direction of the entity.
+    speed (float): The speed of the entity in pixels per second.
+    radius (int): The radius of the entity's circle.
+    collideRadius (int): The radius used for collision detection.
+    color (tuple): The color of the entity.
+    visible (bool): Indicates whether the entity is visible or not.
+    disablePortal (bool): Indicates whether the entity can pass through portals or not.
+    goal (Vector2): The goal position of the entity.
+    directionMethod (function): The method used to determine the next direction of the entity.
+    node (Node): The current node the entity is on.
+    startNode (Node): The starting node of the entity.
+    target (Node): The target node the entity is moving towards.
+    position (Vector2): The current position of the entity.
+    image (Surface): The image used to represent the entity.
+
+**Function: __init__ **
+Initializes a new instance of the Entity class.
+
+Args:
+    node (Node): The starting node of the entity.
+
+**Function: setPosition **
+Sets the position of the entity to the position of the current node.
+
+**Function: update **
+Updates the position of the entity based on its current direction and speed.
+
+Args:
+    dt (float): The time elapsed since the last update in seconds.
+
+**Function: validDirection **
+Checks if the given direction is a valid direction for the entity to move in.
+
+Args:
+    direction (int): The direction to check.
+
+Returns:
+    bool: True if the direction is valid, False otherwise.
+
+**Function: getNewTarget **
+Gets the new target node for the entity based on the given direction.
+
+Args:
+    direction (int): The direction to move in.
+
+Returns:
+    Node: The new target node.
+
+**Function: overshotTarget **
+Checks if the entity has overshot its target node.
+
+Returns:
+    bool: True if the entity has overshot its target, False otherwise.
+
+**Function: reverseDirection **
+Reverses the direction of the entity and swaps the current node and target node.
+
+**Function: oppositeDirection **
+Checks if the given direction is opposite to the current direction of the entity.
+
+Args:
+    direction (int): The direction to check.
+
+Returns:
+    bool: True if the direction is opposite, False otherwise.
+
+**Function: validDirections **
+Gets the valid directions for the entity to move in.
+
+Returns:
+    list: A list of valid directions.
+
+**Function: randomDirection **
+Chooses a random direction from the given list of directions.
+
+Args:
+    directions (list): A list of valid directions.
+
+Returns:
+    int: The randomly chosen direction.
+
+**Function: goalDirection **
+Chooses a direction based on the goal for the entity.
+
+Args:
+    directions (list): A list of valid directions.
+
+Returns:
+    int: The chosen direction based on the goal.
+
+**Function: setStartNode **
+Sets the starting node of the entity.
+
+Args:
+    node (Node): The starting node.
+
+**Function: setBetweenNodes **
+Sets the position between two nodes for the entity.
+
+Args:
+    direction (int): The direction of movement.
+
+**Function: reset **
+Resets the entity to its initial state.
+
+**Function: setSpeed **
+Sets the speed of the entity.
+
+Args:
+    speed (float): The speed in pixels per second.
+
+**Function: render **
+Renders the entity on the screen.
+
+Args:
+    screen (Surface): The surface to render on.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\fruit.py____________________!!
+****** Class: Fruit ******
+A class representing a fruit entity in the Pacman game.
+
+Attributes:
+    node (Node): The node where the fruit is located.
+    level (int): The level of the game.
+    name (str): The name of the fruit.
+    color (tuple): The color of the fruit.
+    lifespan (int): The lifespan of the fruit in seconds.
+    timer (float): The timer to track the lifespan of the fruit.
+    destroy (bool): Flag indicating if the fruit should be destroyed.
+    points (int): The points awarded for collecting the fruit.
+    sprites (FruitSprites): The sprites representing the fruit.
+
+**Function: __init__ **
+Initialize a Fruit object.
+
+Args:
+    node (Node): The node where the fruit is located.
+    level (int, optional): The level of the game. Defaults to 0.
+
+**Function: update **
+Update the state of the fruit over time.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\ghosts.py____________________!!
+****** Class: Ghost ******
+Represents a ghost in the game.
+
+Attributes:
+    node (Node): The starting node of the ghost.
+    pacman (Pacman): The Pacman object in the game.
+    blinky (Blinky): The Blinky ghost object, used by Inky for chasing.
+    name (str): The name of the ghost.
+    points (int): The points awarded to Pacman for eating the ghost in Freight mode.
+    goal (Vector2): The target position for the ghost.
+    directionMethod (function): The method used to determine the ghost's direction.
+    mode (ModeController): Manages the ghost's current mode (e.g., Scatter, Chase, Freight).
+    homeNode (Node): The node the ghost returns to after being eaten.
+    spawnNode (Node): The node from which the ghost spawns.
+    sprites (GhostSprites): The sprite object for the ghost.
+
+**Function: __init__ **
+Initializes a Ghost object.
+
+Args:
+    node (Node): The starting node of the ghost.
+    pacman (Pacman): The Pacman object in the game.
+    blinky (Blinky): The Blinky ghost object.
+
+**Function: reset **
+Resets the ghost to its initial state.
+
+**Function: update **
+Updates the ghost's state every frame.
+
+Args:
+    dt (float): Time elapsed since the last frame.
+
+**Function: scatter **
+Sets the ghost's target position for the Scatter mode.
+
+**Function: chase **
+Sets the ghost's target position for the Chase mode.
+
+**Function: spawn **
+Sets the ghost's target position for the Spawn mode.
+
+**Function: setSpawnNode **
+Sets the node from which the ghost spawns.
+
+Args:
+    node (Node): The spawn node for the ghost.
+
+**Function: startSpawn **
+Starts the Spawn mode for the ghost.
+
+**Function: startFreight **
+Starts the Freight mode for the ghost.
+
+**Function: normalMode **
+Transitions the ghost to normal mode.
+
+****** Class: Blinky ******
+Represents the red Blinky ghost.
+**Function: __init__ **
+Initializes a Blinky ghost object.
+
+Args:
+    node (Node): The starting node of the ghost.
+    pacman (Pacman): The Pacman object in the game.
+    blinky (Blinky): The Blinky ghost object (not used for Blinky itself).
+
+****** Class: Pinky ******
+Represents the pink Pinky ghost.
+
+**Function: __init__ **
+Initializes a Pinky ghost object.
+
+Args:
+    node (Node): The starting node of the ghost.
+    pacman (Pacman): The Pacman object in the game.
+    blinky (Blinky): The Blinky ghost object.
+
+**Function: scatter **
+Sets Pinky's target position for the Scatter mode.
+
+**Function: chase **
+Sets Pinky's target position for the Chase mode.
+
+
+****** Class: Inky ******
+Represents the cyan Inky ghost.
+**Function: __init__ **
+Initializes an Inky ghost object.
+
+Args:
+    node (Node): The starting node of the ghost.
+    pacman (Pacman): The Pacman object in the game.
+    blinky (Blinky): The Blinky ghost object, used for Inky's chasing behavior.
+
+**Function: scatter **
+Sets Inky's target position for the Scatter mode.
+
+**Function: chase **
+Sets Inky's target position for the Chase mode.
+
+
+****** Class: Clyde ******
+Represents the orange Clyde ghost.
+
+**Function: __init__ **
+Initializes a Clyde ghost object.
+
+Args:
+    node (Node): The starting node of the ghost.
+    pacman (Pacman): The Pacman object in the game.
+    blinky (Blinky): The Blinky ghost object.
+
+**Function: scatter **
+Sets Clyde's target position for the Scatter mode.
+
+**Function: chase **
+Sets Clyde's target position for the Chase mode, based on distance from Pacman.
+
+****** Class: GhostGroup ******
+Manages a group of ghost objects.
+
+
+
+**Function: __init__ **
+Initializes a GhostGroup object.
+
+Args:
+    node (Node): The starting node for all ghosts in the group.
+    pacman (Pacman): The Pacman object in the game.
+
+**Function: __iter__ **
+Allows iteration over the ghosts in the group.
+
+**Function: update **
+Updates the state of all ghosts in the group.
+
+Args:
+    dt (float): Time elapsed since the last frame.
+
+**Function: startFreight **
+Starts Freight mode for all ghosts in the group.
+
+**Function: setSpawnNode **
+Sets the spawn node for all ghosts in the group.
+
+Args:
+    node (Node): The spawn node for the ghosts.
+
+**Function: updatePoints **
+Update the points awarded for eating each ghost in Freight mode.
+
+**Function: resetPoints **
+Resets the points awarded for eating each ghost in Freight mode to their default value.
+
+**Function: hide **
+Hides all ghosts in the group.
+
+**Function: show **
+Shows all ghosts in the group.
+
+**Function: reset **
+Resets all ghosts in the group to their initial state.
+
+**Function: render **
+Renders all ghosts in the group on the screen.
+
+Args:
+    screen (pygame.Surface): The surface to render on.
+
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\mazedata.py____________________!!
+****** Class: MazeBase ******
+Represents the base class for a maze in a Pacman game.
+
+Attributes:
+    portalPairs (dict): A dictionary containing the portal pairs in the maze.
+    homeoffset (tuple): The offset of the home nodes in the maze.
+    ghostNodeDeny (dict): A dictionary containing the areas where ghosts are denied access.
+
+****** Class: Maze1 ******
+Class representing Maze 1.
+
+****** Class: Maze2 ******
+Class representing Maze 2.
+
+****** Class: MazeData ******
+Class representing the maze data.
+
+**Function: __init__ **
+Initialize the MazeBase object.
+
+**Function: setPortalPairs **
+Set the portal pairs in the maze.
+
+Args:
+    nodes (object): The nodes object representing the maze nodes.
+
+**Function: connectHomeNodes **
+Connect the home nodes in the maze.
+
+Args:
+    nodes (object): The nodes object representing the maze nodes.
+
+**Function: addOffset **
+Add an offset to the given coordinates.
+
+Args:
+    x (int): The x-coordinate.
+    y (int): The y-coordinate.
+
+Returns:
+    tuple: The updated coordinates with the offset.
+
+**Function: denyGhostsAccess **
+Deny access to ghosts in certain areas of the maze.
+
+Args:
+    ghosts (object): The ghosts object representing the ghosts in the game.
+    nodes (object): The nodes object representing the maze nodes.
+
+**Function: __init__ **
+Initialize the Maze1 object.
+
+**Function: __init__ **
+Initialize the Maze2 object.
+
+**Function: __init__ **
+Initialize the MazeData object.
+
+**Function: loadMaze **
+Load the maze based on the given level.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\modes.py____________________!!
+****** Class: MainMode ******
+Represents the main mode of the game.
+
+Attributes:
+    timer (float): The timer for the mode.
+    mode (str): The current mode of the game.
+    time (int): The duration of the mode.
+
+****** Class: ModeController ******
+Controls the modes of the entity.
+
+**Function: __init__ **
+Initializes the MainMode object.
+
+**Function: update **
+Updates the mode based on the elapsed time.
+
+Args:
+    dt (float): The elapsed time since the last update.
+
+**Function: scatter **
+Sets the mode to scatter mode.
+
+**Function: chase **
+Sets the mode to chase mode.
+
+**Function: __init__ **
+Initializes the ModeController object.
+
+Args:
+    entity (Entity): The entity to control the modes for.
+
+**Function: update **
+Updates the modes for the entity.
+
+Args:
+    dt (float): The elapsed time since the last update.
+
+**Function: setFreightMode **
+Sets the mode to freight mode.
+
+**Function: setSpawnMode **
+Sets the mode to spawn mode.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\nodes.py____________________!!
+****** Class: Node ******
+The Node class will contain information about the node's position, 
+neighboring nodes, and entity access.
+
+Attributes:
+    position (Vector2): The position of the node on the screen.
+    neighbors (dict): A dictionary storing the neighboring nodes of the current node.
+    Keys are directions (UP, DOWN, LEFT, RIGHT, PORTAL) and values are Node objects.
+    access (dict): A dictionary storing the entity access to the current node.
+    Keys are directions (UP, DOWN, LEFT, RIGHT) and values are lists of entities allowed to access.
+    ...
+
+****** Class: NodeGroup ******
+The NodeGroup class will contain information about the nodes in a level.same graph
+
+Attributes:
+    level (str): The name of the text file containing level information.
+    nodesLUT (dict): A dictionary storing all nodes in the level.
+        Keys are the pixel coordinates of the node and values are Node objects.
+    nodeSymbols (list): A list of characters in the text file representing nodes.
+    pathSymbols (list): A list of characters in the text file representing paths.
+    homekey (tuple): The pixel coordinates of the home node.
+
+**Function: __init__ **
+Initializes a new Node object.
+
+Args:
+    x (int): The x-coordinate of the node.
+    y (int): The y-coordinate of the node.
+
+**Function: denyAccess **
+Denies entity access to a specific direction.
+
+Args:
+    direction (int): The direction to deny access.
+    entity (Entity): The entity to deny access.
+
+**Function: allowAccess **
+Allows entity access to a specific direction.
+
+Args:
+    direction (int): The direction to allow access.
+    entity (Entity): The entity to allow access.
+
+**Function: render **
+Renders the connecting lines and nodes on the game screen.
+
+Args:
+    screen (pygame.Surface): The game screen.
+
+**Function: __init__ **
+Initializes a new NodeGroup object.
+
+Args:
+    level (str): The name of the text file containing level information.
+
+**Function: readMazeFile **
+Reads in the text file using numpy's loadtxt.
+
+Args:
+    textfile (str): The name of the text file containing level information.
+
+Returns:
+    numpy.ndarray: A numpy array containing data from the text file.
+
+**Function: createNodeTable **
+Creates a table storing nodes from data in the text file.
+
+Args:
+    data (numpy.ndarray): A numpy array containing data from the text file.
+    xoffset (int): The horizontal offset of the node table from pixel coordinates.
+    yoffset (int): The vertical offset of the node table from pixel coordinates.
+
+**Function: constructKey **
+Converts the row and column in the text file to actual pixel values on the screen.
+
+Args:
+    x (int): The column in the text file.
+    y (int): The row in the text file.
+
+Returns:
+    tuple: The pixel coordinates of the node.
+
+**Function: connectHorizontally **
+Connects nodes horizontally.
+
+Args:
+    data (numpy.ndarray): A numpy array containing data from the text file.
+    xoffset (int): The horizontal offset of the node table from pixel coordinates.
+    yoffset (int): The vertical offset of the node table from pixel coordinates.
+
+**Function: connectVertically **
+Connects nodes vertically.
+
+Args:
+    data (numpy.ndarray): A numpy array containing data from the text file.
+    xoffset (int): The horizontal offset of the node table from pixel coordinates.
+    yoffset (int): The vertical offset of the node table from pixel coordinates.
+
+**Function: getStartTempNode **
+Returns the node where Pacman starts.
+
+Returns:
+    Node: The node where Pacman starts.
+
+**Function: setPortalPair **
+Connects the portal pairs.
+
+Args:
+    pair1 (tuple): The pixel coordinates of the first portal.
+    pair2 (tuple): The pixel coordinates of the second portal.
+
+**Function: createHomeNodes **
+Creates the home nodes for ghosts.
+
+Args:
+    xoffset (int): The horizontal offset of the node table from pixel coordinates.
+    yoffset (int): The vertical offset of the node table from pixel coordinates.
+
+Returns:
+    tuple: The pixel coordinates of the home node.
+
+**Function: connectHomeNodes **
+Connects the home nodes to other nodes.
+
+Args:
+    homekey (tuple): The pixel coordinates of the home node.
+    otherkey (tuple): The pixel coordinates of the other node.
+    direction (int): The direction of the connection.
+
+**Function: getNodeFromPixels **
+Returns the node from the given pixel coordinates.
+
+Args:
+    xpixel (int): The x-coordinate in pixels.
+    ypixel (int): The y-coordinate in pixels.
+
+Returns:
+    Node: The node corresponding to the given pixel coordinates.
+
+**Function: getNodeFromTiles **
+Returns the node from the given row and column coordinates.
+
+Args:
+    col (int): The column in the text file.
+    row (int): The row in the text file.
+
+Returns:
+    Node: The node corresponding to the given row and column coordinates.
+
+**Function: denyAccess **
+Denies entity access to a specific direction from a specific node.
+
+Args:
+    col (int): The column in the text file.
+    row (int): The row in the text file.
+    direction (int): The direction to deny access.
+    entity (Entity): The entity to deny access.
+
+**Function: allowAccess **
+Allows entity access to a specific direction from a specific node.
+
+Args:
+    col (int): The column in the text file.
+    row (int): The row in the text file.
+    direction (int): The direction to allow access.
+    entity (Entity): The entity to allow access.
+
+**Function: denyAccessList **
+Denies entity access to a specific direction from a list of nodes.
+
+Args:
+    col (int): The column in the text file.
+    row (int): The row in the text file.
+    direction (int): The direction to deny access.
+    entities (list): The list of entities to deny access.
+
+**Function: allowAccessList **
+Allows entity access to a specific direction from a list of nodes.
+
+Args:
+    col (int): The column in the text file.
+    row (int): The row in the text file.
+    direction (int): The direction to allow access.
+    entities (list): The list of entities to allow access.
+
+**Function: denyHomeAccess **
+Denies entity access to the down direction from the home node.
+
+Args:
+    entity (Entity): The entity to deny access.
+
+**Function: allowHomeAccess **
+Allows entity access to the down direction from the home node.
+
+Args:
+    entity (Entity): The entity to allow access.
+
+**Function: denyHomeAccessList **
+Denies entity access to the down direction from a list of nodes.
+
+Args:
+    entities (list): The list of entities to deny access.
+
+**Function: allowHomeAccessList **
+Allows entity access to the down direction from a list of nodes.
+
+Args:
+    entities (list): The list of entities to allow access.
+
+**Function: render **
+Renders the nodes on the game screen.
+
+Args:
+    screen (pygame.Surface): The game screen.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\pacman.py____________________!!
+****** Class: Pacman ******
+Class representing the Pacman entity in the game.
+
+Attributes:
+    node (Node): The current node that Pacman is on.
+    name (str): The name of the entity.
+    color (tuple): The color of the entity.
+    direction (Vector2): The current direction of movement.
+    alive (bool): Indicates if Pacman is alive or not.
+    sprites (PacmanSprites): The sprite manager for Pacman.
+
+**Function: __init__ **
+Initialize Pacman with the given node.
+
+Args:
+    node (Node): The starting node for Pacman.
+
+**Function: reset **
+Reset Pacman to its initial state.
+
+**Function: die **
+Handle Pacman's death.
+
+**Function: update **
+Update Pacman's position.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+**Function: getValidKey **
+Check which key is pressed.
+
+Returns:
+    int: The direction corresponding to the pressed key.
+
+**Function: eatPellets **
+Check if Pacman is eating any pellets.
+
+Args:
+    pelletList (list): List of pellets in the game.
+
+Returns:
+    Pellet or None: The pellet that Pacman is eating, or None if no pellet is being eaten.
+
+**Function: collideGhost **
+Check if Pacman is colliding with a ghost.
+
+Args:
+    ghost (Ghost): The ghost to check collision with.
+
+Returns:
+    bool: True if Pacman is colliding with the ghost, False otherwise.
+
+**Function: collideCheck **
+Check if Pacman is colliding with another entity.
+
+Args:
+    other (Entity): The other entity to check collision with.
+
+Returns:
+    bool: True if Pacman is colliding with the other entity, False otherwise.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\pauser.py____________________!!
+****** Class: Pause ******
+A class that represents the pause state of a game.
+
+Attributes:
+    paused (bool): The current pause state.
+    timer (float): The timer for tracking the elapsed time during the pause.
+    pauseTime (float): The duration of the pause in seconds.
+    func (function): The function to be executed after the pause time has elapsed.
+
+**Function: __init__ **
+Initializes the Pause class.
+
+Args:
+    paused (bool, optional): The initial pause state. Defaults to False.
+
+**Function: update **
+Updates the pause state.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+Returns:
+    function or None: The function to be executed after the pause time has elapsed, or None if no function is set.
+
+**Function: setPause **
+Sets the pause state.
+
+Args:
+    playerPaused (bool, optional): Whether the player is paused. Defaults to False.
+    pauseTime (float, optional): The duration of the pause in seconds. Defaults to None.
+    func (function, optional): The function to be executed after the pause time has elapsed. Defaults to None.
+
+**Function: flip **
+Toggles the pause state.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\pellets.py____________________!!
+****** Class: Pellet ******
+Represents a pellet in the Pacman game.
+
+Attributes:
+    name (str): The name of the pellet.
+    position (Vector2): The position of the pellet on the screen.
+    color (tuple): The color of the pellet.
+    radius (int): The radius of the pellet.
+    collideRadius (float): The collision radius of the pellet.
+    points (int): The number of points the pellet is worth.
+    visible (bool): Indicates whether the pellet is visible or not.
+
+****** Class: PowerPellet ******
+Represents a power pellet in the Pacman game.
+
+Attributes:
+    row (int): The row index of the power pellet.
+    column (int): The column index of the power pellet.
+    name (str): The name of the power pellet.
+    radius (int): The radius of the power pellet.
+    points (int): The number of points awarded for eating the power pellet.
+    flashTime (float): The time interval for the power pellet to flash.
+    timer (float): The current timer for the power pellet.
+
+****** Class: PelletGroup ******
+Represents a group of pellets in the game.
+
+Attributes:
+    pelletList (list): A list of all the pellets in the group.
+    powerpellets (list): A list of power pellets in the group.
+    numEaten (int): The number of pellets eaten.
+    ...
+
+**Function: __init__ **
+Initializes a new instance of the Pellet class.
+
+Args:
+    row (int): The row index of the pellet.
+    column (int): The column index of the pellet.
+
+**Function: render **
+Renders the pellet on the screen.
+
+Args:
+    screen (pygame.Surface): The surface to render the pellet on.
+
+**Function: __init__ **
+Initializes a new instance of the PowerPellet class.
+
+Args:
+    row (int): The row index of the power pellet.
+    column (int): The column index of the power pellet.
+
+**Function: update **
+Updates the state of the power pellet.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+**Function: __init__ **
+Initializes a new instance of the PelletGroup class.
+
+Args:
+    pelletfile (str): The file path of the pellet data.
+
+**Function: update **
+Updates the state of the pellets.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+**Function: createPelletList **
+Creates a list of pellets from the pellet data file.
+
+Args:
+    pelletfile (str): The file path of the pellet data.
+
+**Function: readPelletfile **
+Reads the pellet data from a text file.
+
+Args:
+    textfile (str): The file path of the pellet data.
+
+Returns:
+    numpy.ndarray: The pellet data as a numpy array.
+
+**Function: isEmpty **
+Checks if the pellet list is empty.
+
+Returns:
+    bool: True if the pellet list is empty, False otherwise.
+
+**Function: render **
+Renders all the pellets on the screen.
+
+Args:
+    screen (pygame.Surface): The surface to render the pellets on.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\run.py____________________!!
+****** Class: GameController ******
+The main game controller class. Manages game logic, rendering, and events.
+
+Attributes:
+    screen (pygame.Surface): The main game window.
+    background (pygame.Surface): The background image (either normal or flashing).
+    background_norm (pygame.Surface): The normal background image.
+    background_flash (pygame.Surface): The flashing background image.
+    clock (pygame.time.Clock): The game clock for controlling frame rate.
+    fruit (Fruit): The fruit object, if present.
+    pause (Pause): The pause object for handling game pauses.
+    level (int): The current game level.
+    lives (int): The number of remaining lives.
+    score (int): The player's current score.
+    textgroup (TextGroup): The group containing on-screen text elements.
+    lifesprites (LifeSprites): The sprite group containing the player's lives.
+    flashBG (bool): Flag indicating whether to flash the background.
+    flashTime (float): The duration of the background flash.
+    flashTimer (float): Timer for the background flash.
+    fruitCaptured (list): A list of fruit sprites that have been captured.
+    fruitNode (Node): The node where the fruit spawns.
+    mazedata (MazeData): The data object containing information about the maze.
+    running (bool): Flag indicating whether the game is running.
+    high_score (int): The highest score achieved.
+
+Methods:
+    setBackground(): Creates the normal and flashing background images.
+    startScreen(): Displays the initial game start screen.
+    startScreen2(): Displays the screen for choosing music and showing instructions.
+    startGame(): Initializes a new game level.
+    update(): Updates game logic, events, and rendering.
+    checkEvents(): Handles keyboard and mouse events.
+    checkPelletEvents(): Checks for Pacman eating pellets and power pellets.
+    checkGhostEvents(): Checks for Pacman colliding with ghosts.
+    checkFruitEvents(): Checks for Pacman eating the fruit.
+    showEntities(): Shows Pacman and ghosts.
+    hideEntities(): Hides Pacman and ghosts.
+    nextLevel(): Starts the next level.
+    restartGame(): Restarts the game from the beginning.
+    resetLevel(): Resets the current level.
+    updateScore(): Updates the player's score.
+    render(): Renders game objects to the screen.
+
+**Function: __init__ **
+Initializes the GameController object.
+
+**Function: setBackground **
+Creates the normal and flashing background images for the current level.
+
+**Function: startScreen **
+Displays the initial game start screen with instructions.
+
+**Function: startScreen2 **
+Displays the screen for choosing music and showing game instructions.
+
+**Function: startGame **
+Initializes a new game level.
+
+**Function: update **
+Updates the game state, events, and rendering.
+
+**Function: checkEvents **
+Handles keyboard and mouse events.
+
+**Function: checkPelletEvents **
+Checks for Pacman eating pellets and power pellets.
+
+**Function: checkGhostEvents **
+Checks for Pacman colliding with ghosts.
+
+**Function: checkFruitEvents **
+Checks for Pacman eating the fruit.
+
+**Function: showEntities **
+Shows Pacman and ghosts.
+
+**Function: hideEntities **
+Hides Pacman and ghosts.
+
+**Function: nextLevel **
+Starts the next level.
+
+**Function: restartGame **
+Restarts the game from the beginning.
+
+**Function: resetLevel **
+Resets the current level.
+
+**Function: updateScore **
+Updates the player's score.
+
+**Function: render **
+Renders game objects to the screen.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\sprites.py____________________!!
+****** Class: Spritesheet ******
+A class representing a spritesheet
+
+****** Class: PacmanSprites ******
+Class representing the sprites for Pacman entity.
+
+****** Class: GhostSprites ******
+Class representing the sprites for the ghosts.
+
+****** Class: FruitSprites ******
+Class representing the sprites for the fruits.
+
+****** Class: LifeSprites ******
+Class representing the sprites for the lives.
+
+****** Class: MazeSprites ******
+Class representing the sprites for the maze.
+
+**Function: __init__ **
+Initialize the Spritesheet object.
+
+**Function: getImage **
+Get a specific image from the spritesheet.
+
+Args:
+    x (int): The x-coordinate of the top-left corner of the image.
+    y (int): The y-coordinate of the top-left corner of the image.
+    width (int): The width of the image.
+    height (int): The height of the image.
+    
+Returns:
+    pygame.Surface: The image from the spritesheet.
+
+**Function: __init__ **
+Initialize the PacmanSprites object.
+
+Args:
+    entity: The Pacman entity.
+
+**Function: defineAnimations **
+Define the animations for Pacman's movement directions.
+
+**Function: update **
+Update the image of the Pacman entity based on its current state and direction.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+**Function: reset **
+Reset all animations to their initial state.
+
+**Function: getStartImage **
+Get the starting image for Pacman.
+
+**Function: getImage **
+Get a specific image for Pacman.
+
+Args:
+    x (int): The x-coordinate of the top-left corner of the image.
+    y (int): The y-coordinate of the top-left corner of the image.
+    
+Returns:
+    pygame.Surface: The image for Pacman.
+
+**Function: __init__ **
+Initialize the GhostSprites object.
+
+Args:
+    entity: The ghost entity.
+
+**Function: update **
+Update the image of the ghost entity based on its current state and direction.
+
+Args:
+    dt (float): The time elapsed since the last update.
+
+**Function: getStartImage **
+Get the starting image for the ghost.
+
+**Function: getImage **
+Get a specific image for the ghost.
+
+Args:
+    x (int): The x-coordinate of the top-left corner of the image.
+    y (int): The y-coordinate of the top-left corner of the image.
+    
+Returns:
+    pygame.Surface: The image for the ghost.
+
+**Function: __init__ **
+Initialize the FruitSprites object.
+
+Args:
+    entity: The fruit entity.
+    level (int): The current level of the game.
+
+**Function: getStartImage **
+Get the starting image for the fruit.
+
+Args:
+    key (int): The key to select the starting image.
+    
+Returns:
+    pygame.Surface: The starting image for the fruit.
+
+**Function: getImage **
+Get a specific image for the fruit.
+
+Args:
+    x (int): The x-coordinate of the top-left corner of the image.
+    y (int): The y-coordinate of the top-left corner of the image.
+    
+Returns:
+    pygame.Surface: The image for the fruit.
+
+**Function: __init__ **
+Initialize the LifeSprites object.
+
+Args:
+    numlives (int): The number of lives.
+
+**Function: removeImage **
+Remove an image from the list of life images.
+
+**Function: resetLives **
+Reset the life images based on the number of lives.
+
+Args:
+    numlives (int): The number of lives.
+
+**Function: getImage **
+Get a specific image for the life.
+
+Args:
+    x (int): The x-coordinate of the top-left corner of the image.
+    y (int): The y-coordinate of the top-left corner of the image.
+    
+Returns:
+    pygame.Surface: The image for the life.
+
+**Function: __init__ **
+Initialize the MazeSprites object.
+
+Args:
+    mazefile (str): The file path of the maze file.
+    rotfile (str): The file path of the rotation file.
+
+**Function: getImage **
+Get a specific image for the maze.
+
+Args:
+    x (int): The x-coordinate of the top-left corner of the image.
+    y (int): The y-coordinate of the top-left corner of the image.
+    
+Returns:
+    pygame.Surface: The image for the maze.
+
+**Function: readMazeFile **
+Read the maze file and return the maze data as a numpy array.
+
+Args:
+    mazefile (str): The file path of the maze file.
+    
+Returns:
+    numpy.ndarray: The maze data as a numpy array.
+
+**Function: constructBackground **
+Construct the background for the game screen based on the maze data.
+
+Args:
+    background (pygame.Surface): The surface to draw the background on.
+    y (int): The y-coordinate of the background.
+    
+Returns:
+    pygame.Surface: The updated background surface.
+
+**Function: rotate **
+Rotate the given sprite by the specified value.
+
+Args:
+    sprite (pygame.Surface): The sprite to rotate.
+    value (int): The rotation value in multiples of 90 degrees.
+    
+Returns:
+    pygame.Surface: The rotated sprite.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\text.py____________________!!
+**Function: __init__ **
+Initializes a Text object.
+
+Args:
+    text (str): The text to be displayed.
+    color (tuple): The color of the text in RGB format.
+    x (int): The x-coordinate of the text position.
+    y (int): The y-coordinate of the text position.
+    size (int): The font size of the text.
+    time (float, optional): The lifespan of the text in seconds. Defaults to None.
+    id (int, optional): The unique identifier of the text. Defaults to None.
+    visible (bool, optional): Whether the text is visible or not. Defaults to True.
+
+**Function: setupFont **
+Sets up the font for the text.
+
+Args:
+    fontpath (str): The path to the font file.
+
+**Function: createLabel **
+Creates the label surface for the text.
+
+**Function: setText **
+Sets the text to a new value and updates the label.
+
+Args:
+    newtext (str): The new text value.
+
+**Function: update **
+Updates the text based on the elapsed time.
+
+Args:
+    dt (float): The elapsed time since the last update in seconds.
+
+**Function: render **
+Renders the text on the screen.
+
+Args:
+    screen (pygame.Surface): The surface to render the text on.
+
+**Function: __init__ **
+Initializes a TextGroup object.
+
+**Function: addText **
+Adds a new Text object to the group.
+
+Args:
+    text (str): The text to be displayed.
+    color (tuple): The color of the text in RGB format.
+    x (int): The x-coordinate of the text position.
+    y (int): The y-coordinate of the text position.
+    size (int): The font size of the text.
+    time (float, optional): The lifespan of the text in seconds. Defaults to None.
+    id (int, optional): The unique identifier of the text. Defaults to None.
+
+Returns:
+    int: The unique identifier of the added text.
+
+**Function: removeText **
+Removes a Text object from the group.
+
+Args:
+    id (int): The unique identifier of the text to be removed.
+
+**Function: setupText **
+Sets up the initial text objects in the group.
+
+**Function: update **
+Updates all the text objects in the group.
+
+Args:
+    dt (float): The elapsed time since the last update in seconds.
+
+**Function: showText **
+Shows a specific text object in the group.
+
+Args:
+    id (int): The unique identifier of the text to be shown.
+
+**Function: hideText **
+Hides all the text objects in the group.
+
+**Function: updateScore **
+Updates the score text.
+
+Args:
+    score (int): The new score value.
+
+**Function: updateLevel **
+Updates the level text.
+
+Args:
+    level (int): The new level value.
+
+**Function: updateText **
+Updates the text of a specific text object.
+
+Args:
+    id (int): The unique identifier of the text object.
+    value (str): The new text value.
+
+**Function: render **
+Renders all the text objects on the screen.
+
+Args:
+    screen (pygame.Surface): The surface to render the text on.
+
+!!____________________File: D:\DSA\Pacman\Pacman_NgThienBao\vector.py____________________!!
+****** Class: Vector2 ******
+A class representing a 2D vector.
+
+**Function: __init__ **
+Initialize the Vector2 object.
+
+Args:
+    x (float): The x-coordinate of the vector. Default is 0.
+    y (float): The y-coordinate of the vector. Default is 0.
+
+**Function: __add__ **
+Add two vectors.
+
+Args:
+    other (Vector2): The vector to be added.
+
+Returns:
+    Vector2: The sum of the two vectors.
+
+**Function: __sub__ **
+Subtract two vectors.
+
+Args:
+    other (Vector2): The vector to be subtracted.
+
+Returns:
+    Vector2: The difference between the two vectors.
+
+**Function: __neg__ **
+Negate the vector.
+
+Returns:
+    Vector2: The negated vector.
+
+**Function: __mul__ **
+Multiply the vector by a scalar.
+
+Args:
+    scalar (float): The scalar value to multiply the vector by.
+
+Returns:
+    Vector2: The scaled vector.
+
+**Function: __div__ **
+Divide the vector by a scalar (Python 2.x).
+
+Args:
+    scalar (float): The scalar value to divide the vector by.
+
+Returns:
+    Vector2: The divided vector.
+
+**Function: __truediv__ **
+Divide the vector by a scalar (Python 3.x).
+
+Args:
+    scalar (float): The scalar value to divide the vector by.
+
+Returns:
+    Vector2: The divided vector.
+
+**Function: __eq__ **
+Check if two vectors are approximately equal.
+
+Args:
+    other (Vector2): The vector to compare with.
+
+Returns:
+    bool: True if the vectors are approximately equal, False otherwise.
+
+**Function: magnitudeSquared **
+Calculate the squared magnitude of the vector.
+
+Returns:
+    float: The squared magnitude of the vector.
+
+**Function: magnitude **
+Calculate the magnitude of the vector.
+
+Returns:
+    float: The magnitude of the vector.
+
+**Function: copy **
+Create a copy of the vector.
+
+Returns:
+    Vector2: A copy of the vector.
+
+**Function: asTuple **
+Convert the vector to a tuple.
+
+Returns:
+    tuple: The vector as a tuple.
+
+**Function: asInt **
+Convert the vector to a tuple with integer values.
+
+Returns:
+    tuple: The vector as a tuple with integer values.
+
+**Function: __str__ **
+Convert the vector to a string representation.
+
+Returns:
+    str: The vector as a string.
+
