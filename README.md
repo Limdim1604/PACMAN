@@ -1,2 +1,2 @@
 # PACMAN
-Đây là đồ án cuối kì ITOO3 cực kì tâm huyết.
+Đây là đồ án cuối kì ITOO3 đặt trọn tâm huyết mất ăn mất ngủ...
