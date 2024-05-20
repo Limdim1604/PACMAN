@@ -124,6 +124,10 @@ class Ghost(Entity):
 class Blinky(Ghost):
     """
     Represents the red Blinky ghost.
+    In the CHASE state, Blinky pursues Pacman by targeting Pacman's current location. 
+    In the SCATTER state, Blinky disperses to the top left corner of the maze.
+    The Blinky class does not have separate scatter and chase functions. 
+    Instead, it utilizes methods inherited from class Ghosts.
     """
     def __init__(self, node, pacman=None, blinky=None):
         """
@@ -143,6 +147,9 @@ class Blinky(Ghost):
 class Pinky(Ghost):
     """
     Represents the pink Pinky ghost.
+    In the CHASE state, Blinky pursues Pacman by targeting Pacman's current location 
+    and aiming for the position four squares ahead of Pacman in the direction Pacman is currently moving.
+    In the SCATTER state, Pinky disperses to the top right corner of the maze.
     """
     def __init__(self, node, pacman=None, blinky=None):
         """
@@ -174,6 +181,10 @@ class Pinky(Ghost):
 class Inky(Ghost):
     """
     Represents the cyan Inky ghost.
+    In the CHASE state, Inky moves to a location calculated by taking the position two squares 
+    ahead of Pacman in the direction Pacman is moving, subtracting Blinky's position from that location, 
+    and then multiplying the result by 2.
+    In the SCATTER state, Inky disperses to the bottom right corner of the maze.
     """
     def __init__(self, node, pacman=None, blinky=None):
         """
@@ -207,6 +218,10 @@ class Inky(Ghost):
 class Clyde(Ghost):
     """
     Represents the orange Clyde ghost.
+    In the CHASE state, Clyde's pursuit is influenced by his proximity to Pacman. 
+    If Clyde is less than eight squares away from Pacman, he will retreat towards his scatter target.
+    When Clyde is farther away from Pacman, he adopts a similar pursuit strategy to Pinky.
+    In the SCATTER state, Clyde disperses to the bottom left corner of the maze.
     """
     def __init__(self, node, pacman=None, blinky=None):
         """
